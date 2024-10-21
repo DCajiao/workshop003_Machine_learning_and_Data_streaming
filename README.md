@@ -1,0 +1,1 @@
+<p align="center"><img src="https://readme-typing-svg.herokuapp.com?font=Time+New+Roman&color=%23FFFFFF&size=25&center=true&vCenter=true&width=1000&height=100&lines=Workshop+3:+Machine+learning+and+Data+streaming+🧠🚀"></a></p>
