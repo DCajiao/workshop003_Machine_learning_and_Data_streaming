@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "workshop003-machine-learning-and-data-streaming"
+version = "0.1.0"
+description = "Prediction of the happiness index using a regression model with Kafka for data transmission and storage of results in a database."
+authors = ["David Alejandro Cajiao Lazt <123507601+DCajiao@users.noreply.github.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+jupyter = "^1.1.1"
+pandas = "^2.2.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
