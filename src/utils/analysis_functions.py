@@ -1,4 +1,9 @@
 import pandas as pd
+import seaborn as sns
+import logging
+import matplotlib.pyplot as plt
+
+logging.basicConfig(level=logging.INFO)
 
 
 def summary_by_columns(df):
@@ -43,3 +48,26 @@ def summary_by_columns(df):
         summary_df = pd.concat([summary_df, row_summary], ignore_index=True)
 
     return summary_df
+
+
+def plot_correlation_matrix(df):
+    """
+    Plots a correlation heatmap for numeric columns in the given DataFrame.
+
+    Parameters:
+    df (pd.DataFrame): The input DataFrame containing the data.
+
+    The function selects numeric columns, calculates their correlation matrix, 
+    and plots a heatmap to visualize correlations. Any exceptions encountered 
+    during execution are logged as errors.
+    """
+    try:
+        df_numerics = df.select_dtypes(include=['float64', 'int64'])
+        correlation_matrix = df_numerics.corr()
+        plt.figure(figsize=(12, 8))
+        sns.heatmap(correlation_matrix, annot=True,
+                    cmap='coolwarm', fmt=".2f", linewidths=0.5)
+        plt.title('Mapa de Correlación')
+        plt.show()
+    except Exception as e:
+        logging.error(f"The following error occurred: {e}")
