@@ -1,20 +1,24 @@
 version: '3.8' #Docker compose version 
 
-services: #Containers to run
-  zookeeper: # First container (Service)
-    image: confluentinc/cp-zookeeper:latest  #zookeeper docker image
-    container_name: zookeeper #container name
-    environment: #Envirnoment variables
+services:
+  zookeeper:
+    # First container (Service)
+    image: confluentinc/cp-zookeeper:latest #zookeeper docker image
+    container_name: zookeeper
+    environment:
+      #Environment variables
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
-    ports: #maps port 2181 from the host to por 2181 inside the zookeeper container, allows to access zookeeper on port 2181 of your host machine
+    ports:
+      #maps port 2181 from the host to por 2181 inside the zookeeper container, allows to access zookeeper on port 2181 of your host machine
       - 2181:2181
 
-  kafka-test: # Second container (Service)
+  kafka:
+    # Second container (Service)
     image: confluentinc/cp-kafka:latest #latest version of kafka docker image
-    container_name: kafka-test #Name of the container
+    container_name: kafka
     depends_on:
-      - zookeeper #depends on zookeeper so kafka will not start until zookeeper service is up and running
+      - zookeeper
     environment:
       KAFKA_BROKER_ID: 1 #The unique identifier for this Kafka broker (set to 1 in this case).
       KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181' #The connection information for ZooKeeper, which is accessible at zookeeper:2181.
@@ -27,4 +31,3 @@ services: #Containers to run
       - "9092:9092" # port to use to connect from kafka broker to local host port
     expose:
       - "9093"
-
