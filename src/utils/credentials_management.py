@@ -1,5 +1,8 @@
 import os
+import logging
 from dotenv import load_dotenv
+
+logging.basicConfig(level=logging.INFO)
 
 load_dotenv()
 
@@ -20,10 +23,16 @@ def get_database_credentials():
             - 'host' (str or None): The host address of the database server.
             - 'port' (str or None): The port number on which the database server is running.
     """
-    return {
-        'dbname': os.getenv('DBNAME'),
-        'user': os.getenv('DBUSER'),
-        'password': os.getenv('DBPASS'),
-        'host': os.getenv('DBHOST'),
-        'port': os.getenv('DBPORT')
-    }
+    try:
+        credentials = {
+            'dbname': os.environ['DBNAME'],
+            'user': os.environ['DBUSER'],
+            'password': os.environ['DBPASS'],
+            'host': os.environ['DBHOST'],
+            'port': os.environ['DBPORT']
+        }
+        logging.info("Database credentials loaded successfully.")
+        return credentials
+    except KeyError as e:
+        logging.error(f"Error loading database credentials: {e}")
+        return None

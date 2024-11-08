@@ -70,7 +70,7 @@ class DB:
                 user=self.user,
                 password=self.password
             )
-            self.conn.autocommit = True  # Activar autocommit
+            self.conn.autocommit = True
             self.cursor = self.conn.cursor()
             logging.info("✔ Connected to database")
         except Exception as e:
@@ -88,7 +88,7 @@ class DB:
             self.conn.close()
             logging.info("✔ Connection closed")
 
-    def execute(self, query_path, fetch_results=True):
+    def execute_query_file(self, query_path, fetch_results=True):
         """
         Executes a SQL query from a file and commits the transaction.
 
@@ -196,7 +196,7 @@ class DB:
         finally:
             self.close()
 
-    def execute_with_query(self, query, fetch_results=True):
+    def execute_query(self, query, fetch_results=True):
         try:
             self.connect()
             self.cursor.execute(query)

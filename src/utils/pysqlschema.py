@@ -28,11 +28,11 @@ class SQLSchemaGenerator:
         dir_name = os.path.dirname(query_file_path)
         if dir_name:
             os.makedirs(dir_name, exist_ok=True)
-        
+
         # Write the query to the specified file
         with open(query_file_path, 'w') as f:
             f.write(query)
-        
+
         logging.info(f"Query written to {query_file_path}")
 
     def infer_sql_type(self, dtype, col_values=None):
@@ -92,7 +92,6 @@ class SQLSchemaGenerator:
         self.write_query_file(schema, query_file_path)
         if return_query:
             return schema
-
 
     def generate_seed_data(self, df, query_file_path='sql/seed_data.sql', return_query=False):
         """
