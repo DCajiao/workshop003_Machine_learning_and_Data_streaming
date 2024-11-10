@@ -1,14 +1,7 @@
-from src.utils.credentials_management import get_database_credentials
+from utils.credentials_management import get_database_credentials
 import psycopg2
 import logging
 import pandas as pd
-
-import sys
-import os
-
-# Add the 'src' folder to sys.path
-sys.path.append(os.path.abspath(os.path.join('..', 'src')))
-
 
 logging.basicConfig(level=logging.INFO)
 
