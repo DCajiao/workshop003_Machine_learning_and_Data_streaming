@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 app = Flask(__name__)
 
 # Path to the initial model
-MODEL_PATH = './models/00_happinesss_score_prediction_model.pkl'
+MODEL_PATH = './models/00_happiness_score_prediction_model.pkl'
 
 # Initialize the ModelManagement instance
 try:
@@ -59,15 +59,16 @@ def upload_model():
         model_file = request.files['model']
 
         # Determine the new model path with autoincrement
-        model_count = len([name for name in os.listdir('./models') if name.endswith('_happinesss_score_prediction_model.pkl')])
-        new_model_path = f"./models/{model_count}_happinesss_score_prediction_model.pkl"
+        model_count = len([name for name in os.listdir('./models') if name.endswith('_happiness_score_prediction_model.pkl')])
+        model_count = str(model_count).zfill(2)
+        new_model_path = f"./models/{model_count}_happiness_score_prediction_model.pkl"
 
         # Save the new model file
         model_file.save(new_model_path)
         logger.info(f"Model file saved at {new_model_path}")
 
         # Load the new model
-        model_manager.load_new_model(new_model_path)
+        model_manager.load_model(new_model_path)
 
         logger.info(f"New model uploaded and loaded from {new_model_path}.")
         return jsonify({"message": "New model uploaded and loaded successfully.", "model_path": new_model_path}), 200
@@ -87,22 +88,37 @@ def predict():
     try:
         input_data = request.get_json()
         if input_data is None:
-            logging.error("Invalid JSON input received.")
+            logger.error("Invalid JSON input received.")
             return jsonify({"error": "Invalid JSON input."}), 400
         
+        # Convert input data to DataFrame
         input_df = pd.DataFrame([input_data])
-        logging.info("Input data successfully converted to DataFrame.")
         
         # Get prediction
         prediction = model_manager.predict(input_df)
-        logging.info(f"Prediction generated: {prediction}")
         
         return jsonify({"prediction": prediction})
     except ValueError as ve:
-        logging.error(f"ValueError: {ve}")
+        logger.error(f"ValueError: {ve}")
         return jsonify({"error": str(ve)}), 400
     except Exception as e:
-        logging.error(f"Error during prediction: {e}")
+        logger.error(f"Error during prediction: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/models', methods=['GET'])
+def show_models():
+    """
+    Show all available models in the models directory and mark the currently loaded model.
+
+    Returns:
+        dict: List of model file paths.
+    """
+    try:
+        model_files = model_manager.show_models()
+        return jsonify({"models": model_files}), 200
+    except Exception as e:
+        logger.error(f"Error showing models: {e}")
         return jsonify({"error": str(e)}), 500
 
 
