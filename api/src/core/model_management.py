@@ -17,15 +17,11 @@ class ModelManagement:
         """
         self.model = None
         self.model_path = model_path
-        try:
-            self.load_model(model_path)
-        except Exception as e:
-            logger.error(f"Failed to load initial model: {e}")
-            raise
+        self.load_model(model_path)
 
     def load_model(self, model_path):
         """
-        Load a model from a pickle file.
+        Load a model from a pickle file and set it as the current model.
 
         Args:
             model_path (str): Path to the model file.
@@ -33,34 +29,17 @@ class ModelManagement:
         Raises:
             FileNotFoundError: If the specified model file does not exist.
         """
+        if not os.path.exists(model_path):
+            logger.error(f"Model file not found at {model_path}")
+            raise FileNotFoundError(f"Model file not found at {model_path}")
+        
         try:
-            if not os.path.exists(model_path):
-                logger.error(f"Model file not found at {model_path}")
-                raise FileNotFoundError(
-                    f"Model file not found at {model_path}")
             with open(model_path, 'rb') as model_file:
                 self.model = pickle.load(model_file)
-                logger.info(f"Model loaded successfully from {model_path}")
-        except FileNotFoundError as fnf_error:
-            logger.error(f"FileNotFoundError: {fnf_error}")
-            raise
+            self.model_path = model_path
+            logger.info(f"Model loaded successfully from {model_path}")
         except Exception as e:
             logger.error(f"Error loading model: {e}")
-            raise
-
-    def load_new_model(self, new_model_path):
-        """
-        Load a new model from the specified file and replace the current model.
-
-        Args:
-            new_model_path (str): Path to the new model file.
-        """
-        try:
-            self.load_model(new_model_path)
-            self.model_path = new_model_path
-            logger.info(f"New model loaded from {new_model_path}")
-        except Exception as e:
-            logger.error(f"Failed to load new model: {e}")
             raise
 
     def predict(self, input_df):
@@ -76,19 +55,29 @@ class ModelManagement:
         Raises:
             ValueError: If no model is loaded or if the input DataFrame is empty.
         """
+        if self.model is None:
+            raise ValueError("No model is currently loaded.")
+        
+        if input_df.empty:
+            raise ValueError("Input DataFrame is empty.")
+        
         try:
-            if self.model is None:
-                logger.error("No model is currently loaded for predictions.")
-                raise ValueError("No model is currently loaded.")
-            
-            if input_df.empty:
-                logger.error("Input DataFrame is empty.")
-                raise ValueError("Input DataFrame is empty.")
-            
             # Generate prediction
-            prediction = self.model.predict(input_df)[0]  # Extract the first (and only) prediction
-            logger.info(f"Prediction successfully generated: {prediction}")
+            prediction = self.model.predict(input_df)[0]
+            logger.info(f"Prediction generated: {prediction}")
             return prediction
         except Exception as e:
             logger.error(f"Prediction error: {e}")
             raise
+
+    def show_models(self):
+        """
+        Show all available models in the models directory and mark the currently loaded model.
+
+        Returns:
+            list: List of model file paths.
+        """
+        #model_files = [name for name in os.listdir('./models') if name.endswith('_happiness_score_prediction_model.pkl')]
+        model_files = os.listdir('./models')
+        logger.info(f"Available models: {model_files}")
+        return model_files
