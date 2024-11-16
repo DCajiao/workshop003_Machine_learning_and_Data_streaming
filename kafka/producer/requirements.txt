@@ -1,1 +1,9 @@
+numpy
 pandas
+requests
+scipy
+seaborn
+python-dotenv
+kafka-python-ng
+six
+psycopg2-binary
