@@ -1,0 +1,89 @@
+{
+	"info": {
+		"_postman_id": "752b41c2-c406-42b0-999b-2e235852c827",
+		"name": "Happiness Prediction API - Methods",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "36674682"
+	},
+	"item": [
+		{
+			"name": "API documentation",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://happiness-score-prediction-api.onrender.com/docs",
+					"protocol": "https",
+					"host": [
+						"happiness-score-prediction-api",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"docs"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Predict",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"GDP_per_capita\": 1.30232,\r\n    \"Social_support\": 1.34951,\r\n    \"Health_(Life_Expectancy)\": 0.94143,\r\n    \"Freedom\": 0.66557,\r\n    \"Generosity\": 0.29678,\r\n    \"Perceptions_of_corruption\": 0.41978,\r\n    \"Year_2015\": true,\r\n    \"Year_2016\": false,\r\n    \"Year_2017\": false,\r\n    \"Year_2018\": false,\r\n    \"Year_2019\": false\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://happiness-score-prediction-api.onrender.com/predict",
+					"protocol": "https",
+					"host": [
+						"happiness-score-prediction-api",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"predict"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Upload Model",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "model",
+							"type": "file",
+							"src": "/C:/Users/david/Desktop/workshop003_Machine_learning_and_Data_streaming/models/00_happiness_score_prediction_model.pkl"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://happiness-score-prediction-api.onrender.com/upload_model",
+					"protocol": "https",
+					"host": [
+						"happiness-score-prediction-api",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"upload_model"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

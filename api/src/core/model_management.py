@@ -7,6 +7,7 @@ import logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+
 class ModelManagement:
     def __init__(self, model_path):
         """
@@ -32,7 +33,7 @@ class ModelManagement:
         if not os.path.exists(model_path):
             logger.error(f"Model file not found at {model_path}")
             raise FileNotFoundError(f"Model file not found at {model_path}")
-        
+
         try:
             with open(model_path, 'rb') as model_file:
                 self.model = pickle.load(model_file)
@@ -57,10 +58,10 @@ class ModelManagement:
         """
         if self.model is None:
             raise ValueError("No model is currently loaded.")
-        
+
         if input_df.empty:
             raise ValueError("Input DataFrame is empty.")
-        
+
         try:
             # Generate prediction
             prediction = self.model.predict(input_df)[0]
@@ -77,7 +78,7 @@ class ModelManagement:
         Returns:
             list: List of model file paths.
         """
-        #model_files = [name for name in os.listdir('./models') if name.endswith('_happiness_score_prediction_model.pkl')]
+        # model_files = [name for name in os.listdir('./models') if name.endswith('_happiness_score_prediction_model.pkl')]
         model_files = os.listdir('./models')
         logger.info(f"Available models: {model_files}")
         return model_files

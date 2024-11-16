@@ -1,6 +1,7 @@
 import os
 import pandas as pd
 import logging
+import markdown
 
 from flask import Flask, request, jsonify
 
@@ -22,7 +23,7 @@ except Exception as e:
     logger.error(f"Failed to initialize ModelManagement: {e}")
 
 
-@app.route('/docs', methods=['GET'])
+@app.route('/', methods=['GET'])
 def get_docs():
     """
     Return the content of the README.md file for documentation.
@@ -31,10 +32,11 @@ def get_docs():
         str: Content of README.md file.
     """
     try:
-        with open('../README.md', 'r') as readme_file:
+        with open('./methods.md', 'r') as readme_file:
             content = readme_file.read()
             logger.info("Documentation retrieved successfully.")
-            return content
+            html = markdown.markdown(content)
+            return html
     except FileNotFoundError:
         logger.error("README.md file not found.")
         return "README.md file not found.", 404
@@ -90,13 +92,13 @@ def predict():
         if input_data is None:
             logger.error("Invalid JSON input received.")
             return jsonify({"error": "Invalid JSON input."}), 400
-        
+
         # Convert input data to DataFrame
         input_df = pd.DataFrame([input_data])
-        
+
         # Get prediction
         prediction = model_manager.predict(input_df)
-        
+
         return jsonify({"prediction": prediction})
     except ValueError as ve:
         logger.error(f"ValueError: {ve}")
@@ -120,7 +122,6 @@ def show_models():
     except Exception as e:
         logger.error(f"Error showing models: {e}")
         return jsonify({"error": str(e)}), 500
-
 
 
 if __name__ == '__main__':
