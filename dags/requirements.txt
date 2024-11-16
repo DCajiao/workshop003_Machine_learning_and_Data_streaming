@@ -1,0 +1,9 @@
+kafka-python-ng
+numpy
+pandas
+psycopg2-binary
+python-dotenv
+scikit-learn
+scipy
+six
+requests
