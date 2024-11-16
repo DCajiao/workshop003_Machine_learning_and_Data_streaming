@@ -32,34 +32,7 @@ The pipeline is modular and automated, enabling seamless updates and experimenta
 
 ![diagram](./docs/diagrams/data-pipeline.png)
 
-### 1. 📂**Data Preprocessing**  
-    - Receive the 5 csv
-    - Performs data merging
-    - Performs an EDA
-    - Upload data by rendering schema and data seed queries
-
-### 2. 🔍 **EDA**  
-    -  Analyzing variables such as GDP, Social Support, and Happiness Score.  
-    - 📈 Visualizing trends and correlations.  
-
-### 3. **Model Training**  
-
-   - 🎯 Training a regression model using a 70-30 split.  
-   - 📊 Evaluating performance using R² and other metrics.  
-
-### 4. **Data Streaming**  
-   - 🌀 Kafka producer streams transformed data in real time.  
-   - ⚙️ Kafka consumer processes streamed data for predictions.  
-
-### 5. **API**  
-   - 🌐 Hosted API for predicting happiness scores.  
-   - 🔁 Automated redeployment via GitHub commits.  
-
-### 6. **Database Management**  
-   - 🗄️ PostgreSQL stores input features and predictions.  
-
-### 7. **Pipeline Automation**  
-   - 🤖 Airflow orchestrates the ETL and automates model updates.  
+🔍 More details on each phase and each node can be found in this [document](./docs/report/ETL_Workshop_003_-_Machine_Learning_(Airflow__Kafka).pdf)
 
 ---
 
