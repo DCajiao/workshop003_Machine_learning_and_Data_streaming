@@ -1,9 +1,13 @@
-from utils.credentials_management import get_database_credentials
 import psycopg2
 import logging
 import pandas as pd
 
 logging.basicConfig(level=logging.INFO)
+
+try:
+    from utils.credentials_management import get_database_credentials
+except ImportError:
+    from src.utils.credentials_management import get_database_credentials
 
 
 class DB:
