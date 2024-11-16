@@ -125,6 +125,9 @@ Here’s what you can do with the API:
    }
    ```
 
+## 🚀 Deployed Version
+I invite you to take a look at the API deployed in the free Render service at [happiness-score-prediction-api.onrender.com](https://happiness-score-prediction-api.onrender.com)
+
 ---
 
 ## 🛠️ How to Contribute
