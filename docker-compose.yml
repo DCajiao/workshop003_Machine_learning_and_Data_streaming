@@ -137,17 +137,39 @@ services:
       start_period: 5s
     restart: always
 
+  producer:
+    build:
+      context: kafka/producer
+      dockerfile: Dockerfile
+    depends_on:
+      - kafka-test
+    environment:
+      KAFKA_BROKER: kafka-test:9092
+    volumes:
+    - ./src:/app/src
+
+  consumer:
+    build:
+      context: kafka/consumer
+      dockerfile: Dockerfile
+    depends_on:
+      - kafka-test
+    environment:
+      KAFKA_BROKER: kafka-test:9092
+    volumes:
+    - ./src:/app/src
+
   #api:
   #  build:
   #    context: ./api
   #    dockerfile: Dockerfile
-  #  container_name: api-service
+  #  container_name: prediction-happiness-api
   #  ports:
-  #    - "5000:5000"  # Mapea el puerto 5000 del contenedor al host, ajusta según sea necesario
+  #    - "5000:5000"
   #  environment:
-  #    - ENV=production  # Puedes agregar más variables de entorno según lo requerido por tu API
+  #    - ENV=production
   #  volumes:
-  #    - ./api:/app  # Ajusta el volumen si necesitas montar un directorio local en el contenedor
+  #    - ./api:/app
   #  #depends_on:
   #  #  - postgres
 
